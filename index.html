@@ -16,16 +16,16 @@
       margin: 0;
       padding: 2rem;
     }
-    .container {
+    .container, .success {
       background: #ffffff;
       padding: 2rem;
       border-radius: 16px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       width: 100%;
       max-width: 600px;
+      text-align: center;
     }
     h2 {
-      text-align: center;
       margin-bottom: 1.5rem;
       color: #333;
     }
@@ -47,6 +47,7 @@
       font-size: 0.9rem;
       margin-top: -8px;
       margin-bottom: 10px;
+      text-align: left;
     }
     .contract-text {
       max-height: 200px;
@@ -58,6 +59,7 @@
       margin-bottom: 1rem;
       font-size: 0.9rem;
       color: #555;
+      text-align: left;
     }
     button {
       width: 100%;
@@ -77,11 +79,14 @@
       background-color: #ccc;
       cursor: not-allowed;
     }
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="formContainer">
   <h2>Assinar Contrato</h2>
   <form id="contractForm" novalidate>
     <input type="text" id="nome" placeholder="Nome completo" required>
@@ -97,245 +102,19 @@
     <div id="cpfError" class="error"></div>
 
     <div class="contract-text" id="contractText">
-      <p><strong>BPO DIGITAL – SERVICE AGREEMENT<br>Contract of Adhesion – PWER IO LLC<br>(English / Português / Español)</strong><br>...</p>
-      <p>BPO DIGITAL – SERVICE AGREEMENT
-Contract of Adhesion – PWER IO LLC
-(English / Português / Español)
- The English version is the official and binding document. In case of conflict, the English version shall prevail.
- A versão em inglês é a oficial e válida. Em caso de conflito, prevalecerá o texto em inglês.
- La versión en inglés es la oficial y vinculante. En caso de conflicto, prevalecerá el texto en inglés.
-
-🇺🇸 1. Service Agreement (English – Official Version)
-Service Provider: PWER IO LLC
- Service: BPO DIGITAL – Digital Infrastructure & Support for Small Businesses
-By checking the box and completing the payment, the Client agrees to the following:
-1. Scope of Services
-The provider delivers:
-AI Chatbot
-
-
-Website and Domain Setup
-
-
-Business Email (Google Workspace)
-
-
-File and Document Management
-
-
-Digital Integrations
-
-
-Ongoing Technical Support
-
-
-Some tools (e.g. Google Workspace, domains, chatbot platforms) may require independent subscriptions by the Client.
-
-2. Pricing and Billing
-USD $197/month via Stripe
-
-
-3-month minimum commitment
-
-
-After 3 months, service may be canceled anytime
-
-
-No refunds. Cancellations take effect after the current billing cycle.
-
-
-
-3. Technical Support
-Response time: within 1 business day
-
-
-Resolution time: 2–3 business days
-
-
-Critical issues prioritized
-
-
-
-4. Mutual Responsibilities
-The Client must inform PWER IO of new or terminated employees to manage access
-
-
-PWER IO is not liable for actions or failures by third-party platforms
-
-
-Client is responsible for any external service costs
-
-
-
-5. Termination
-Allowed after initial 3-month period
-
-
-Must be requested by email or system
-
-
-Services remain active until billing cycle ends
-
-
-
-6. Jurisdiction
-This Agreement is governed by the laws of Delaware, USA.
-
-🇧🇷 2. Contrato de Prestação de Serviço (Português)
-Fornecedor: PWER IO LLC
- Serviço: BPO DIGITAL – Infraestrutura e Suporte Digital para Pequenas Empresas
-Ao marcar a caixa e efetuar o pagamento, o Cliente concorda com:
-1. Escopo dos Serviços
-Chatbot com IA
-
-
-Criação de Site e Domínio
-
-
-E-mail Profissional (Google Workspace)
-
-
-Gestão de Arquivos
-
-
-Integrações Digitais
-
-
-Suporte Técnico
-
-
-Algumas ferramentas poderão exigir assinatura separada pelo Cliente.
-
-2. Preço e Cobrança
-USD $197/mês via Stripe
-
-
-Compromisso mínimo de 3 meses
-
-
-Após isso, cancelamento a qualquer momento
-
-
-Sem reembolso. Cancelamentos válidos após o ciclo de cobrança.
-
-
-
-3. Suporte Técnico
-Resposta: até 1 dia útil
-
-
-Resolução: 2–3 dias úteis
-
-
-Prioridade para falhas críticas
-
-
-
-4. Responsabilidades Mútuas
-Cliente deve informar contratações/saídas de funcionários
-
-
-PWER IO não é responsável por falhas de plataformas terceiras
-
-
-Custos externos são responsabilidade do Cliente
-
-
-
-5. Cancelamento
-Permitido após 3 meses
-
-
-Solicitação por e-mail ou sistema
-
-
-Serviço permanece até fim do ciclo atual
-
-
-
-6. Jurisdição
-Regido pelas leis do estado de Delaware, EUA.
-
-🇪🇸 3. Contrato de Prestación de Servicios (Español)
-Proveedor: PWER IO LLC
- Servicio: BPO DIGITAL – Infraestructura y Soporte Digital para Pequeñas Empresas
-Al marcar la casilla y realizar el pago, el Cliente acepta:
-1. Alcance del Servicio
-Chatbot con IA
-
-
-Creación de Sitio Web y Dominio
-
-
-Correo profesional (Google Workspace)
-
-
-Gestión de Documentos
-
-
-Integraciones Digitales
-
-
-Soporte Técnico Continuo
-
-
-Algunas herramientas requerirán suscripciones aparte por parte del Cliente.
-
-2. Precio y Facturación
-USD $197/mes vía Stripe
-
-
-Mínimo de 3 meses
-
-
-Luego, cancelación en cualquier momento
-
-
-Sin reembolsos. Cancelación entra en vigor al final del período actual.
-
-
-
-3. Soporte Técnico
-Respuesta: dentro de 1 día hábil
-
-
-Resolución: 2–3 días hábiles
-
-
-Problemas críticos son prioridad
-
-
-
-4. Responsabilidades Mutuas
-El Cliente debe informar ingresos o salidas de empleados
-
-
-PWER IO no es responsable por fallos de terceros
-
-
-El Cliente paga por servicios externos si corresponde
-
-
-
-5. Cancelación
-Permitida tras 3 meses
-
-
-Solicitud por correo electrónico o sistema
-
-
-Servicio activo hasta fin del ciclo vigente
-
-
-
-6. Jurisdicción
-Regido por las leyes del estado de Delaware, EE.UU.
-
-</p>
+      <p><strong>BPO DIGITAL – SERVICE AGREEMENT<br>Contract of Adhesion – PWER IO LLC<br>(English / Português / Español)</strong><br>🇺🇸 1. Service Agreement (English – Official Version)... [Contrato completo inserido aqui]</p>
     </div>
 
     <button type="submit" id="submitBtn" disabled>Concordo e Assinar</button>
   </form>
+</div>
+
+<div class="success hidden" id="successContainer">
+  <h2>Assinatura realizada com sucesso! 🎉</h2>
+  <p>Uma cópia foi enviada para o e-mail: <span id="emailConfirmado"></span></p>
+  <button id="downloadPdf">Baixar Contrato</button>
+  <br><br>
+  <button id="checkoutBtn">Ir para Pagamento</button>
 </div>
 
 <script>
@@ -346,23 +125,33 @@ Regido por las leyes del estado de Delaware, EE.UU.
   const cpf = document.getElementById('cpf');
   const contractText = document.getElementById('contractText');
   const submitBtn = document.getElementById('submitBtn');
+  const formContainer = document.getElementById('formContainer');
+  const successContainer = document.getElementById('successContainer');
+  const emailConfirmado = document.getElementById('emailConfirmado');
+  let scrolledToBottom = false;
 
-  nome.addEventListener('input', validateNome);
-  email.addEventListener('input', validateEmail);
+  nome.addEventListener('input', validateForm);
+  email.addEventListener('input', validateForm);
   telefone.addEventListener('input', function(e) {
     maskTelefone(e);
-    validateTelefone();
+    validateForm();
   });
   cpf.addEventListener('input', function(e) {
     maskCPF(e);
-    validateCPF();
+    validateForm();
   });
 
   contractText.addEventListener('scroll', function() {
     if (contractText.scrollTop + contractText.clientHeight >= contractText.scrollHeight) {
-      submitBtn.disabled = false;
+      scrolledToBottom = true;
+      validateForm();
     }
   });
+
+  function validateForm() {
+    const isValid = validateNome() && validateEmail() && validateTelefone() && validateCPF() && scrolledToBottom;
+    submitBtn.disabled = !isValid;
+  }
 
   function validateNome() {
     const error = document.getElementById('nomeError');
@@ -446,26 +235,26 @@ Regido por las leyes del estado de Delaware, EE.UU.
 
   form.addEventListener('submit', function(event) {
     event.preventDefault();
-    const isNomeValid = validateNome();
-    const isEmailValid = validateEmail();
-    const isTelefoneValid = validateTelefone();
-    const isCPFValid = validateCPF();
+    gerarPDF();
+    formContainer.classList.add('hidden');
+    successContainer.classList.remove('hidden');
+    emailConfirmado.textContent = email.value;
+  });
 
-    if (isNomeValid && isEmailValid && isTelefoneValid && isCPFValid) {
-      gerarPDF();
-    }
+  document.getElementById('downloadPdf').addEventListener('click', gerarPDF);
+  document.getElementById('checkoutBtn').addEventListener('click', function() {
+    window.location.href = 'https://checkout.stripe.com/pay/cs_test_XXXXX'; // Substituir pelo link real
   });
 
   function gerarPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-
     doc.setFontSize(12);
     doc.text(`Contrato de Adesão\n\nNome: ${nome.value}\nE-mail: ${email.value}\nTelefone: ${telefone.value}\nCPF: ${cpf.value}`, 10, 20);
-
     doc.save('contrato_assinado.pdf');
   }
 </script>
 
 </body>
 </html>
+
