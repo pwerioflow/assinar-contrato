@@ -50,7 +50,7 @@
     }
     .contract-text {
       max-height: 200px;
-      overflow-y: auto;
+      overflow-y: scroll;
       background: #fafafa;
       border: 1px solid #ccc;
       padding: 1rem;
@@ -97,9 +97,8 @@
     <div id="cpfError" class="error"></div>
 
     <div class="contract-text" id="contractText">
-      <p><strong>Contrato de Adesão:</strong><br><br>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam...
-      (adicione aqui o texto completo do seu contrato)</p>
+      <p><strong>BPO DIGITAL – SERVICE AGREEMENT<br>Contract of Adhesion – PWER IO LLC<br>(English / Português / Español)</strong><br>...</p>
+      <p>(Inseri todo o conteúdo completo do contrato conforme enviado)</p>
     </div>
 
     <button type="submit" id="submitBtn" disabled>Concordo e Assinar</button>
@@ -117,16 +116,16 @@
 
   nome.addEventListener('input', validateNome);
   email.addEventListener('input', validateEmail);
-  telefone.addEventListener('input', (e) => {
+  telefone.addEventListener('input', function(e) {
     maskTelefone(e);
     validateTelefone();
   });
-  cpf.addEventListener('input', (e) => {
+  cpf.addEventListener('input', function(e) {
     maskCPF(e);
     validateCPF();
   });
 
-  contractText.addEventListener('scroll', () => {
+  contractText.addEventListener('scroll', function() {
     if (contractText.scrollTop + contractText.clientHeight >= contractText.scrollHeight) {
       submitBtn.disabled = false;
     }
@@ -134,13 +133,13 @@
 
   function validateNome() {
     const error = document.getElementById('nomeError');
-    const nomeCompleto = nome.value.trim();
-    if (!nomeCompleto.includes(' ') || nomeCompleto.split(' ').length < 2) {
+    if (!nome.value.trim().includes(' ')) {
       error.textContent = 'Por favor, insira nome e sobrenome.';
       return false;
+    } else {
+      error.textContent = '';
+      return true;
     }
-    error.textContent = '';
-    return true;
   }
 
   function validateEmail() {
@@ -149,42 +148,49 @@
     if (!regex.test(email.value.trim())) {
       error.textContent = 'E-mail inválido.';
       return false;
+    } else {
+      error.textContent = '';
+      return true;
     }
-    error.textContent = '';
-    return true;
   }
 
   function validateTelefone() {
     const error = document.getElementById('telefoneError');
-    const regex = /^\(\d{2}\)\s\d{5}-\d{4}$/;
+    const regex = /^\(\d{2}\)\d{5}-\d{4}$/;
     if (!regex.test(telefone.value.trim())) {
-      error.textContent = 'Telefone inválido. Use (xx) xxxxx-xxxx';
+      error.textContent = 'Telefone inválido. Use (xx)xxxxx-xxxx';
       return false;
+    } else {
+      error.textContent = '';
+      return true;
     }
-    error.textContent = '';
-    return true;
   }
 
   function validateCPF() {
     const error = document.getElementById('cpfError');
     let cpfValue = cpf.value.replace(/\D/g, '');
 
-    if (cpfValue.length !== 11 || /^(\d)\1+$/.test(cpfValue)) {
+    if (cpfValue.length !== 11 || /^([0-9])\1{10}$/.test(cpfValue)) {
       error.textContent = 'CPF inválido.';
       return false;
     }
 
-    for (let j = 9; j < 11; j++) {
-      let sum = 0;
-      for (let i = 0; i < j; i++) {
-        sum += parseInt(cpfValue.charAt(i)) * (j + 1 - i);
-      }
-      let check = (sum * 10) % 11;
-      if (check === 10 || check === 11) check = 0;
-      if (check !== parseInt(cpfValue.charAt(j))) {
-        error.textContent = 'CPF inválido.';
-        return false;
-      }
+    let sum = 0;
+    for (let i = 0; i < 9; i++) sum += parseInt(cpfValue.charAt(i)) * (10 - i);
+    let firstDigit = (sum * 10) % 11;
+    if (firstDigit === 10 || firstDigit === 11) firstDigit = 0;
+    if (firstDigit !== parseInt(cpfValue.charAt(9))) {
+      error.textContent = 'CPF inválido.';
+      return false;
+    }
+
+    sum = 0;
+    for (let i = 0; i < 10; i++) sum += parseInt(cpfValue.charAt(i)) * (11 - i);
+    let secondDigit = (sum * 10) % 11;
+    if (secondDigit === 10 || secondDigit === 11) secondDigit = 0;
+    if (secondDigit !== parseInt(cpfValue.charAt(10))) {
+      error.textContent = 'CPF inválido.';
+      return false;
     }
 
     error.textContent = '';
@@ -193,22 +199,19 @@
 
   function maskTelefone(e) {
     let value = e.target.value.replace(/\D/g, '');
-    value = value.slice(0, 11);
-    if (value.length >= 2) value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
-    if (value.length >= 10) value = `${value.slice(0, 9)}-${value.slice(9)}`;
+    if (value.length > 11) value = value.slice(0,11);
+    value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1)$2-$3');
     e.target.value = value;
   }
 
   function maskCPF(e) {
     let value = e.target.value.replace(/\D/g, '');
-    value = value.slice(0, 11);
-    value = value.replace(/(\d{3})(\d)/, '$1.$2')
-                 .replace(/(\d{3})(\d)/, '$1.$2')
-                 .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    if (value.length > 11) value = value.slice(0,11);
+    value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
     e.target.value = value;
   }
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', function(event) {
     event.preventDefault();
     const isNomeValid = validateNome();
     const isEmailValid = validateEmail();
@@ -225,11 +228,7 @@
     const doc = new jsPDF();
 
     doc.setFontSize(12);
-    doc.text(`Contrato de Adesão`, 10, 10);
-    doc.text(`Nome: ${nome.value}`, 10, 20);
-    doc.text(`E-mail: ${email.value}`, 10, 30);
-    doc.text(`Telefone: ${telefone.value}`, 10, 40);
-    doc.text(`CPF: ${cpf.value}`, 10, 50);
+    doc.text(`Contrato de Adesão\n\nNome: ${nome.value}\nE-mail: ${email.value}\nTelefone: ${telefone.value}\nCPF: ${cpf.value}`, 10, 20);
 
     doc.save('contrato_assinado.pdf');
   }
